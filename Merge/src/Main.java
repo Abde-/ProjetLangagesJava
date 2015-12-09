@@ -2,7 +2,7 @@
  *
  * @author Abde
  */
-public class MergeSort {
+public class Main {
 
     /**
      * @param args the command line arguments
