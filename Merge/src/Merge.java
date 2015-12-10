@@ -78,6 +78,10 @@ public class Merge<T extends Comparable> implements Runnable {
             while( j < m && i < sizelast) vector.set( k++, vector.get(i).compareTo(w.get(j)) < 0 ? vector.get(i++) : w.get(j++) ); // overload > operator
             while( j < m ) vector.set(k++,w.get(j++));
             
+            
+            String y = "";
+            for( int l = sizefirst; l < sizelast; ++l) y += vector.get(l).toString() + " ";
+            System.out.println(y);
             // post traitement
             
         }
