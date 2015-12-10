@@ -23,12 +23,20 @@ public class Merge<T extends Comparable> implements Runnable {
         this.vector = vector;
     }
     
-    public Merge(T[] vector, final int sizel){
+    public Merge(T[] vector, int sizel){
         this(vector,sizel,0);
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
+        Integer[] vect = new Integer[]{3,1,6,4};
+        int length = vect.length;
         
+        Runnable merge = new Merge<>(vect,length);
+        Thread thread = new Thread(merge);
+        thread.start();
+        thread.join();
+        
+        for(Integer i: vect) System.out.println(i);
     }
     
     @Override
@@ -51,8 +59,8 @@ public class Merge<T extends Comparable> implements Runnable {
                 Logger.getLogger(Merge.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            
-            T[] w = (T[]) new Object[(sizelast - sizefirst)/2];
+            // generic array creation SA MÈRE!!!
+            T[] w = new T[(sizelast - sizefirst)/2];
             
             int i =sizefirst, j=sizefirst, k=sizefirst;
             
