@@ -58,7 +58,9 @@ public class Merge<T extends Comparable> implements Runnable {
             Thread thread1 = new Thread(merge1);
             Thread thread2 = new Thread(merge2);
             
+            System.out.println("Création de "+thread1.getName());
             thread1.start();
+            System.out.println("Création de "+thread2.getName());
             thread2.start();
             
             try {
@@ -83,7 +85,7 @@ public class Merge<T extends Comparable> implements Runnable {
             
             String y = "";
             for( int l = sizefirst; l < sizelast; ++l) y += vector.get(l).toString() + " ";
-            System.out.println(y);
+            System.out.println(Thread.currentThread().getName()+" "+y);
             // post traitement
             
         }
