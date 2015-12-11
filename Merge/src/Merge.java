@@ -29,7 +29,8 @@ public class Merge<T extends Comparable> implements Runnable {
     }
     
     public static void main(String[] args) throws InterruptedException {
-        int[] array = new int[]{3,1,6,4};
+        int[] array = new int[]{2,38,59,94,67,54,63,60,94,92,86,59,84,89,5,91,79,55,1,76,50,80,44,32,2,37,15,30,80,63,39,62,69,63,83,19,53,12,3,3,18,23,94,83,36,37,41,15,38,46,49
+                ,98,40,95,87,4,17,65,77,66,58,3,15,37,33,64,45,15,15,47,28,13,46,78,25,24,14,62,58,75,49,85,23,21,94,45,41,5,74,76,78,95,78,63,4,26,19,11,2,66,4};
         ArrayList<Integer> vect = new ArrayList<>(array.length);        
         
         for (int i = 0; i <array.length; ++i) vect.add(array[i]);
@@ -41,9 +42,6 @@ public class Merge<T extends Comparable> implements Runnable {
         thread.start();
         thread.join();
         
-        vect.stream().forEach((i) -> {
-            System.out.println(i);
-        });
     }
     
     @Override
@@ -51,10 +49,12 @@ public class Merge<T extends Comparable> implements Runnable {
         if (sizelast - sizefirst > 1){
             
             // works, play a little with indexes
-            final int m = (sizelast - sizefirst)/2 + sizefirst;
-            Runnable merge1 = new Merge<>(vector,m,sizefirst);
-            Runnable merge2 = new Merge<>(vector,sizelast,m);
+            final int m = (sizelast - sizefirst)/2;
             
+            Runnable merge1 = new Merge<>(vector,m+sizefirst,sizefirst); // left
+            Runnable merge2 = new Merge<>(vector,sizelast,m+sizefirst); // right
+            
+            // creation of threads
             Thread thread1 = new Thread(merge1);
             Thread thread2 = new Thread(merge2);
             
@@ -68,13 +68,15 @@ public class Merge<T extends Comparable> implements Runnable {
                 Logger.getLogger(Merge.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            // generic array creation SA MÈRE!!! -> essayer avec ArrayList
-            ArrayList<T> w = new ArrayList<>((sizelast - sizefirst)/2);
+            // generic array creation for left side
+            ArrayList<T> w = new ArrayList<>(m);
             for(int i = 0; i < (sizelast - sizefirst)/2; ++i) w.add(vector.get(0));
             
-            int i =sizefirst, j=sizefirst, k=sizefirst;
+            int i =sizefirst, j=0, k=sizefirst;
             
-            for (; i < m; ++i) w.set( i, vector.get(i) );
+            int ind = 0;
+            for (; i < m+sizefirst; ++i) w.set( ind++, vector.get(i) );
+            
             while( j < m && i < sizelast) vector.set( k++, vector.get(i).compareTo(w.get(j)) < 0 ? vector.get(i++) : w.get(j++) ); // overload > operator
             while( j < m ) vector.set(k++,w.get(j++));
             
