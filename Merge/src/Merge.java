@@ -40,9 +40,6 @@ public class Merge<T extends Comparable> implements Runnable {
         
         Runnable merge = new Merge<>(vect,length);
         Thread thread = new Thread(merge);
-        
-        System.out.println("Création de "+thread.getName());
-        
         thread.start();
         thread.join();
         
